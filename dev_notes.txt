@@ -21,6 +21,11 @@ Documentation: (everything available for Python):
 https://www.gurobi.com/documentation/9.0/refman/py_python_api_details.html
 
 
+Example of summation in objective:
+https://support.gurobi.com/hc/en-us/community/posts/360054584271-Gurobi-Python-Summation-Constraint-with-Multiplication-not-being-satisfied-
+
+
+
 
 - - - -
 m.setObjective(obj @ x, GRB.MAXIMIZE)

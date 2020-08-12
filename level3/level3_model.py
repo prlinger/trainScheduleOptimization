@@ -77,7 +77,8 @@ try:
 
     '''
     Init data for routes and stations:
-    e.g. edge (s1,s2) is 30km long and must transport 40 passengers (and the reverse)
+    e.g. edge (s1,s2) is 30km long and must trans    e.g. edge (s1,s2) is 30km long and must transport 40 passengers (and the reverse)
+port 40 passengers (and the reverse)
          The route is (s1,s2,s1) and is 60km long.  Note, all routes are cycles.
     
     Note:  Since ridership is greatest between the stations Union and York University, the edge capacity
@@ -202,7 +203,7 @@ try:
             route_cycle_times[loco_type] = m.addVar(vtype=GRB.CONTINUOUS, name="cycletime_{}_{}".format(route, loco_type))
         cycle_times[route] = route_cycle_times
 
-    # Set objective (level2 is quadratic instead of linear)
+    # Set objective (level2/3 is quadratic instead of linear)
     obj = 0
     for route in routes:
         for loco_type in loco_types:

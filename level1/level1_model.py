@@ -30,7 +30,11 @@ try:
     Note: I have set the fixed cost to zero since the locos are already owned, and this does not affect daily
     operation as much.  The millions of dollars in fixed cost overshadows the cost of operating.
     '''
-    loco_types, loco_Cfix, loco_Ckm, loco_speed = gp.multidict({ 'MP40': [0, 98.09, 91] })
+    # loco_types, loco_Cfix, loco_Ckm, loco_speed = gp.multidict({ 'MP40': [0, 98.09, 91] })
+    loco_types, loco_Cfix, loco_Ckm, loco_speed = gp.multidict({
+        'MP40': [0, 98.09, 91],
+        'F529PH': [0, 89.73, 83]
+    })
     if debug:
         print("loco_types, loco_Cfix, loco_Ckm, loco_speed:")
         print(loco_types)
@@ -50,7 +54,11 @@ try:
 
     e.g. car of type 'a' costs 100 to buy, 1 per km to run, and has capacity of 10 passengers
     '''
-    car_types, car_Cfix, car_Ckm, car_cap, car_min, car_max = gp.multidict({ 'MP40': [0, 37.26, 162, 1, 12] })
+    # car_types, car_Cfix, car_Ckm, car_cap, car_min, car_max = gp.multidict({ 'MP40': [0, 37.26, 162, 1, 12] })
+    car_types, car_Cfix, car_Ckm, car_cap, car_min, car_max = gp.multidict({
+        'MP40': [0, 37.26, 162, 1, 12],
+        'F529PH': [0, 37.26, 162, 1, 10]
+    })
     if debug:
         print("\ncar_types, car_Cfix, car_Ckm, car_cap, car_min, car_max:")
         print(car_types)
@@ -110,7 +118,7 @@ try:
     def calc_cycle_time(route_key, loco_key):
         return (route_dist[route_key] * 2 / loco_speed[loco_key]) * 60
 
-    cycle_times = { 'r1': { 'MP40': calc_cycle_time('r1', 'MP40') } }
+    cycle_times = { 'r1': { 'MP40': calc_cycle_time('r1', 'MP40'), 'F529PH': calc_cycle_time('r1', 'F529PH') } }
 
     if debug:
         print("- - - - cycle_times:")
@@ -124,7 +132,7 @@ try:
     def calc_num_trains(route_key, loco_key):
         return ceil( cycle_times[route_key][loco_key] / period )
 
-    num_trains = { 'r1': {'MP40': calc_num_trains('r1', 'MP40') } }
+    num_trains = { 'r1': {'MP40': calc_num_trains('r1', 'MP40'), 'F529PH': calc_num_trains('r1', 'F529PH') }}
 
     if debug:
         print("- - - - num_trains:")

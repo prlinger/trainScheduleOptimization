@@ -1,0 +1,205 @@
+Academic license - for non-commercial use only
+Changed value of parameter NonConvex to 2
+   Prev: -1  Min: -1  Max: 2  Default: -1
+Gurobi Optimizer version 9.0.2 build v9.0.2rc0 (mac64)
+Optimize a model with 113 rows, 96 columns and 224 nonzeros
+Model fingerprint: 0xc2dbff0d
+Model has 8 quadratic objective terms
+Model has 88 quadratic constraints
+Variable types: 88 continuous, 8 integer (4 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 2e+02]
+  QMatrix range    [1e+00, 9e+01]
+  QLMatrix range   [2e+00, 3e+01]
+  Objective range  [0e+00, 0e+00]
+  QObjective range [8e+01, 3e+02]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [2e-02, 1e+03]
+Presolve removed 21 rows and 0 columns
+Presolve time: 0.19s
+Presolved: 533 rows, 618 columns, 1325 nonzeros
+Presolved model has 344 SOS constraint(s)
+Presolved model has 4 bilinear constraint(s)
+Variable types: 438 continuous, 180 integer (176 binary)
+
+Root relaxation: objective 1.339382e+01, 251 iterations, 0.00 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0   13.39382    0  218          -   13.39382      -     -    0s
+     0     0   34.69313    0  155          -   34.69313      -     -    0s
+     0     0   35.60785    0   86          -   35.60785      -     -    0s
+     0     0   35.60785    0   86          -   35.60785      -     -    0s
+H    0     0                    1930.7668286   35.60785  98.2%     -    0s
+     0     0 1100.97467    0   10 1930.76683 1100.97467  43.0%     -    0s
+     0     0 1340.06564    0    9 1930.76683 1340.06564  30.6%     -    0s
+     0     0 1340.21061    0    9 1930.76683 1340.21061  30.6%     -    0s
+     0     0 1668.74866    0    6 1930.76683 1668.74866  13.6%     -    0s
+     0     0 1669.95990    0    3 1930.76683 1669.95990  13.5%     -    0s
+     0     0     cutoff    0      1930.76683 1930.76683  0.00%     -    0s
+
+Cutting planes:
+  Implied bound: 68
+  MIR: 23
+  Flow cover: 11
+  RLT: 38
+  Relax-and-lift: 10
+
+Explored 1 nodes (789 simplex iterations) in 0.44 seconds
+Thread count was 4 (of 4 available processors)
+
+Solution count 1: 1930.77 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 1.930766828643e+03, best bound 1.930766828643e+03, gap 0.0000%
+
+Station to name mapping: - - - -
+	Route r1 == Barrie Line:
+		s1 -> Union
+		s2 -> York University
+		s3 -> Rutherford
+		s4 -> Maple
+		s5 -> King City
+		s6 -> Aurora
+		s7 -> Newmarket
+		s8 -> East Gwillimbury
+		s9 -> Bradford
+		s10 -> Barrie South
+		s11 -> Allendale
+	Route r2 == Lakeshore West Line:
+		s1 -> Union
+		s2 -> Exhibition
+		s3 -> Mimico
+		s4 -> Long Branch
+		s5 -> Port Credit
+		s6 -> Clarkson
+		s7 -> Oakville
+		s8 -> Bronte
+		s9 -> Applyby
+		s10 -> Burlington
+		s11 -> Aldershot
+		s12 -> Hamilton
+
+Locomotive and Coach values for each route: - - - -
+	Note: x_rt is binary.  1 if type t is used on route r.  Similar, w_rt is the number of coaches for type t
+	Route r1:
+		Number of loco used: 3
+		x_rt[r1,MP40] 1.0
+		w_rt[r1,MP40] 4.0
+		Number of loco used: 0
+		x_rt[r1,F529PH] 0.0
+		w_rt[r1,F529PH] 0.0
+	Route r2:
+		Number of loco used: 2
+		x_rt[r2,MP40] 1.0
+		w_rt[r2,MP40] 9.0
+		Number of loco used: 0
+		x_rt[r2,F529PH] 0.0
+		w_rt[r2,F529PH] 0.0
+
+Route Schedules: - - - -
+
+	Route r1 - formatted (station event, event time in units of period, event time in minutes):
+		d_r1_s1_0 0.08333333333333333 5.0m
+		a_r1_s2_0 0.2760805860805293 16.56483516483176m
+		d_r1_s2_0 0.292747252747196 17.56483516483176m
+		a_r1_s3_0 0.39538461538448794 23.723076923069275m
+		d_r1_s3_0 0.4120512820511546 24.723076923069275m
+		a_r1_s4_0 0.44029304029291283 26.41758241757477m
+		d_r1_s4_0 0.4569597069595795 27.41758241757477m
+		a_r1_s5_0 0.5347619047617773 32.085714285706636m
+		d_r1_s5_0 0.551428571428444 33.08571428570664m
+		a_r1_s6_0 0.6787912087910815 40.72747252746489m
+		d_r1_s6_0 0.6954578754577482 41.72747252746489m
+		a_r1_s7_0 0.7716117216115943 46.29670329669566m
+		d_r1_s7_0 0.788278388278261 47.29670329669566m
+		a_r1_s8_0 0.8111355311354039 48.668131868124235m
+		d_r1_s8_0 0.8278021978020706 49.66813186812424m
+		a_r1_s9_0 0.9339560439559168 56.03736263735501m
+		d_r1_s9_0 0.9506227106225835 57.03736263735501m
+		a_r1_s10_0 1.268974358974232 76.13846153845391m
+		d_r1_s10_0 1.2856410256408985 77.13846153845391m
+		a_r1_s11_0 1.3475091575090303 80.85054945054182m
+		 - - Turn around point - -
+		d_r1_s11_1 1.364175824175697 81.85054945054182m
+		a_r1_s10_1 1.4260439560438287 85.56263736262973m
+		d_r1_s10_1 1.4427106227104953 86.56263736262972m
+		a_r1_s9_1 1.7610622710621437 105.66373626372862m
+		d_r1_s9_1 1.77772893772881 106.6637362637286m
+		a_r1_s8_1 1.883882783882656 113.03296703295936m
+		d_r1_s8_1 1.9005494505493217 114.0329670329593m
+		a_r1_s7_1 1.9234065934064646 115.40439560438787m
+		d_r1_s7_1 1.9400732600731305 116.40439560438783m
+		a_r1_s6_1 2.0162271062269763 120.97362637361857m
+		d_r1_s6_1 2.032893772893643 121.97362637361857m
+		a_r1_s5_1 2.1602564102562796 129.61538461537677m
+		d_r1_s5_1 2.176923076922946 130.61538461537677m
+		a_r1_s4_1 2.254725274725144 135.28351648350863m
+		d_r1_s4_1 2.2713919413918107 136.28351648350863m
+		a_r1_s3_1 2.299633699633569 137.97802197801414m
+		d_r1_s3_1 2.316300366300234 138.97802197801406m
+		a_r1_s2_1 2.418937728937597 145.1362637362558m
+		d_r1_s2_1 2.4356043956042637 146.1362637362558m
+		a_r1_s1_1 2.6283516483515164 157.70109890109097m
+
+	Route r2 - formatted (station event, event time in units of period, event time in minutes):
+		d_r2_s1_0 0.08333333333333333 5.0m
+		a_r2_s2_0 0.11871794871794872 7.123076923076923m
+		d_r2_s2_0 0.13538461538461538 8.123076923076923m
+		a_r2_s3_0 0.21846153846153846 13.107692307692307m
+		d_r2_s3_0 0.23512820512820512 14.107692307692307m
+		a_r2_s4_0 0.28644688644688643 17.186813186813186m
+		d_r2_s4_0 0.3031135531135531 18.186813186813186m
+		a_r2_s5_0 0.3597069597069597 21.582417582417584m
+		d_r2_s5_0 0.3763736263736264 22.582417582417584m
+		a_r2_s6_0 0.4453846153846155 26.72307692307693m
+		d_r2_s6_0 0.46205128205128215 27.723076923076928m
+		a_r2_s7_0 0.5451282051282053 32.70769230769231m
+		d_r2_s7_0 0.561794871794872 33.70769230769232m
+		a_r2_s8_0 0.6201465201465204 37.208791208791226m
+		d_r2_s8_0 0.6368131868131871 38.208791208791226m
+		a_r2_s9_0 0.6934065934065936 41.60439560439562m
+		d_r2_s9_0 0.7100732600732604 42.60439560439563m
+		a_r2_s10_0 0.7736996336996341 46.42197802197805m
+		d_r2_s10_0 0.790366300366301 47.421978021978056m
+		a_r2_s11_0 0.8452014652014658 50.712087912087945m
+		d_r2_s11_0 0.8618681318681325 51.71208791208795m
+		a_r2_s12_0 0.9450549450549457 56.70329670329674m
+		 - - Turn around point - -
+		d_r2_s12_1 0.9617216117216125 57.70329670329675m
+		a_r2_s11_1 1.0449084249084255 62.69450549450553m
+		d_r2_s11_1 1.0615750915750923 63.69450549450554m
+		a_r2_s10_1 1.1164102564102572 66.98461538461542m
+		d_r2_s10_1 1.1330769230769238 67.98461538461542m
+		a_r2_s9_1 1.1967032967032976 71.80219780219785m
+		d_r2_s9_1 1.2133699633699642 72.80219780219785m
+		a_r2_s8_1 1.269963369963371 76.19780219780226m
+		d_r2_s8_1 1.2866300366300376 77.19780219780226m
+		a_r2_s7_1 1.3449816849816862 80.69890109890117m
+		d_r2_s7_1 1.3616483516483529 81.69890109890117m
+		a_r2_s6_1 1.4447252747252761 86.68351648351657m
+		d_r2_s6_1 1.4613919413919427 87.68351648351657m
+		a_r2_s5_1 1.5304029304029318 91.82417582417591m
+		d_r2_s5_1 1.5470695970695985 92.82417582417591m
+		a_r2_s4_1 1.6036630036630053 96.21978021978032m
+		d_r2_s4_1 1.620329670329672 97.21978021978032m
+		a_r2_s3_1 1.6716483516483531 100.29890109890118m
+		d_r2_s3_1 1.6883150183150197 101.29890109890118m
+		a_r2_s2_1 1.771391941391943 106.28351648351658m
+		d_r2_s2_1 1.7880586080586096 107.28351648351658m
+		a_r2_s1_1 1.8234432234432252 109.40659340659352m
+
+Cycle Times: - - - -
+	Route r1:
+		cycletime_r1_MP40 2.6283516483515164 157.70109890109097m
+		cycletime_r1_F529PH 0.0 0.0m
+	Route r2:
+		cycletime_r2_MP40 1.8234432234432252 109.40659340659352m
+		cycletime_r2_F529PH 0.0 0.0m
+
+########
+The Objective Value is 1930.766828643291
+########
+
+Process finished with exit code 0

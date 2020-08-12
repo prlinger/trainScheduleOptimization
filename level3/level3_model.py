@@ -2,13 +2,20 @@
 
 # Copyright 2020, Gurobi Optimization, LLC
 
-# Level 2 model:
-# Has Basic PESP constraints, one route, one train type.
+# Level 3 model:
+# - PESP constraints include station wait time and padding.
+# - PESP constraint for overlap of routes at Union station.
+# - Two routes
+# - Two locomotive types
 
 import gurobipy as gp
 from gurobipy import GRB
+import numpy as np
 from math import ceil
 
+# This is required to allow for multiple train type.  If the default value (-1) is used, we get error:
+# Error code 10020: Objective Q not PSD (diagonal adjustment of 2.3e+02 would be required). Set NonConvex parameter to 2 to solve model.
+gp.setParam("NonConvex", 2)
 
 debug = False
 # debug = True
@@ -16,7 +23,7 @@ debug = False
 try:
 
     # Create a new model
-    m = gp.Model("level2")
+    m = gp.Model("level3")
 
     #### Initialize Data: ####
 
@@ -31,7 +38,10 @@ try:
     Note: I have set the fixed cost to zero since the locos are already owned, and this does not affect daily
     operation as much.  The millions of dollars in fixed cost overshadows the cost of operating.
     '''
-    loco_types, loco_Cfix, loco_Ckm, loco_speed = gp.multidict({ 'MP40': [0, 98.09, 91] })
+    loco_types, loco_Cfix, loco_Ckm, loco_speed = gp.multidict({
+        'MP40': [0, 98.09, 91],
+        'F529PH': [0, 89.73, 83]
+    })
     if debug:
         print("loco_types, loco_Cfix, loco_Ckm, loco_speed:")
         print(loco_types)
@@ -51,7 +61,10 @@ try:
 
     e.g. car of type 'a' costs 100 to buy, 1 per km to run, and has capacity of 10 passengers
     '''
-    car_types, car_Cfix, car_Ckm, car_cap, car_min, car_max = gp.multidict({ 'MP40': [0, 37.26, 162, 1, 12] })
+    car_types, car_Cfix, car_Ckm, car_cap, car_min, car_max = gp.multidict({
+        'MP40': [0, 37.26, 162, 1, 12],
+        'F529PH': [0, 37.26, 162, 1, 10]
+    })
     if debug:
         print("\ncar_types, car_Cfix, car_Ckm, car_cap, car_min, car_max:")
         print(car_types)
@@ -70,27 +83,63 @@ try:
     Note:  Since ridership is greatest between the stations Union and York University, the edge capacity
             is fixed by this maximum capacity. 
     '''
-    stations = {'r1': ['s1','s2','s3','s4','s5','s6','s7','s8','s9','s10','s11']}
+    stations = {'r1': ['s1','s2','s3','s4','s5','s6','s7','s8','s9','s10','s11'],
+                'r2': ['s1','s2','s3','s4','s5','s6','s7','s8','s9','s10','s11', 's12']}
     station_to_name = {'r1': {'s1': "Union", 's2': "York University", 's3': "Rutherford", 's4': "Maple",
                               's5': "King City", 's6': "Aurora", 's7': "Newmarket", 's8': "East Gwillimbury",
-                              's9': "Bradford", 's10': "Barrie South", 's11': "Allendale"}}
-    route_to_name = {'r1': "Barrie Line"}
-    edges, edge_len, edge_Npassengers = gp.multidict({
-                                                        ('s1','s2'): [17.54, 550],
-                                                        ('s2','s3'): [9.34, 550],
-                                                        ('s3','s4'): [2.57, 550],
-                                                        ('s4','s5'): [7.08, 550],
-                                                        ('s5','s6'): [11.59, 550],
-                                                        ('s6','s7'): [6.93, 550],
-                                                        ('s7','s8'): [2.08, 550],
-                                                        ('s8', 's9'): [9.66, 550],
-                                                        ('s9', 's10'): [28.97, 550],
-                                                        ('s10', 's11'): [5.63, 550] })
-    # [('s1','s2'), ('s2','s3'), ('s3','s4'), ('s4','s5'), ('s5','s6'), ('s6','s7'), ('s7','s8'), ('s8', 's9'), ('s9', 's10'), ('s10', 's11')]
+                              's9': "Bradford", 's10': "Barrie South", 's11': "Allendale"},
+                       'r2': {'s1': "Union", 's2': "Exhibition", 's3': "Mimico", 's4': "Long Branch",
+                              's5': "Port Credit", 's6': "Clarkson", 's7': "Oakville", 's8': "Bronte",
+                              's9': "Applyby", 's10': "Burlington", 's11': "Aldershot", 's12': "Hamilton"}}
+
+    route_to_name = {'r1': "Barrie Line", 'r2': "Lakeshore West Line"}
+    r1_edges, r1_edge_len, r1_edge_Npassengers = gp.multidict({
+        ('s1','s2'): [17.54, 550],
+        ('s2','s3'): [9.34, 550],
+        ('s3','s4'): [2.57, 550],
+        ('s4','s5'): [7.08, 550],
+        ('s5','s6'): [11.59, 550],
+        ('s6','s7'): [6.93, 550],
+        ('s7','s8'): [2.08, 550],
+        ('s8', 's9'): [9.66, 550],
+        ('s9', 's10'): [28.97, 550],
+        ('s10', 's11'): [5.63, 550] })
+
+    r2_edges, r2_edge_len, r2_edge_Npassengers = gp.multidict({
+        ('s1', 's2'): [3.22, 1400],
+        ('s2', 's3'): [7.56, 1400],
+        ('s3', 's4'): [4.67, 1400],
+        ('s4', 's5'): [5.15, 1400],
+        ('s5', 's6'): [6.28, 1400],
+        ('s6', 's7'): [7.56, 1400],
+        ('s7', 's8'): [5.31, 1400],
+        ('s8', 's9'): [5.15, 1400],
+        ('s9', 's10'): [5.79, 1400],
+        ('s10', 's11'): [4.99, 1400],
+        ('s11', 's12'): [7.57, 1400]})
+
+    [('s1','s2'), ('s2','s3'), ('s3','s4'), ('s4','s5'), ('s5','s6'), ('s6','s7'), ('s7','s8'), ('s8', 's9'), ('s9', 's10'), ('s10', 's11')]
     routes, route_edges, route_dist = gp.multidict({
-        'r1': [[('s1','s2'), ('s2','s3'), ('s3','s4'), ('s4','s5'), ('s5','s6'), ('s6','s7'), ('s7','s8'), ('s8', 's9'), ('s9', 's10'), ('s10', 's11')],
-               101.39]
+        'r1': [[('s1','s2'), ('s2','s3'), ('s3','s4'), ('s4','s5'), ('s5','s6'), ('s6','s7'), ('s7','s8'),
+                ('s8', 's9'), ('s9', 's10'), ('s10', 's11')],
+               101.39],
+        'r2': [[('s1', 's2'), ('s2', 's3'), ('s3', 's4'), ('s4', 's5'), ('s5', 's6'), ('s6', 's7'), ('s7', 's8'),
+                ('s8', 's9'), ('s9', 's10'), ('s10', 's11'), ('s11', 's12')],
+               63.25]
     })
+
+    # Initialize complete dictionaries for edges and routes:
+    edges = { 'r1': [], 'r2': [] }
+    edge_len = { 'r1': {}, 'r2': {} }
+    edge_Npassengers = { 'r1': {}, 'r2': {} }
+    for edge in r1_edges:
+        edges['r1'].append(edge)
+        edge_len['r1'][edge] = r1_edge_len[edge]
+        edge_Npassengers['r1'][edge] = r1_edge_Npassengers[edge]
+    for edge in r2_edges:
+        edges['r2'].append(edge)
+        edge_len['r2'][edge] = r2_edge_len[edge]
+        edge_Npassengers['r2'][edge] = r2_edge_Npassengers[edge]
 
     if debug:
         print("routes, route_edges, route_dist")
@@ -101,32 +150,6 @@ try:
     # Init period (variable T in the paper):
     period = 60  # The period is an hour
 
-    '''
-    Init cycle time by train type on each route.  The dict key is the route and train type.
-    e.g. route ('s1','s2','s1') for train 'a' takes 120 minutes
-    '''
-    def calc_cycle_time(route_key, loco_key):
-        return (route_dist[route_key] * 2 / loco_speed[loco_key]) * 60
-
-    level1_cycle_times = { 'r1': { 'MP40': calc_cycle_time('r1', 'MP40') } }
-
-    if debug:
-        print("- - - - level1_cycle_times:")
-        print(level1_cycle_times)
-
-    '''
-    Init number of trains:
-    e.g. route ('s1','s2','s1') would require 2 trains of type 'a'
-    '''
-    def calc_num_trains(route_key, loco_key):
-        return ceil( level1_cycle_times[route_key][loco_key] / period )
-
-    # Unused now that the cycle time is a variable.  Left for comparisons.
-    level1_num_trains = { 'r1': {'MP40': calc_num_trains('r1', 'MP40') } }
-
-    if debug:
-        print("- - - - num_trains:")
-        print(level1_num_trains)
 
     # Create Variables and Set Objective: ------------------------------------------------------------------------------
 
@@ -191,6 +214,7 @@ try:
     # Set objective
     m.setObjective(obj, GRB.MINIMIZE)
 
+
     # Add Constraints: -------------------------------------------------------------------------------------------------
 
     # Add constraints on decision variables:
@@ -206,9 +230,9 @@ try:
         cur_route_capacity = sum((w_rt[route, loco_type] * car_cap[loco_type]) for loco_type in loco_types)
         for edge in route_edges[route]:
             # Add constraint that the passenger requirements for each edge are met.
-            m.addConstr(edge_Npassengers[edge] <= cur_route_capacity)
+            m.addConstr(edge_Npassengers[route][edge] <= cur_route_capacity)
 
-    # Add Level 2 Constraints:
+    # Add Level 2 and some level 3 Constraints:
 
     # Constraint to ensure the train does not exceed its max speed between any pair of stations.
     # the LHS is speed on edge and the RHS is the max speed of train.
@@ -222,15 +246,19 @@ try:
                 # fwd_speed = edge_len[edge] / (arrival_times[route][0][edge] - departure_times[route][0][edge])  # Error code 10003: Divisor must be a constant
                 # m.addConstr(x_rt[route, loco_type] * fwd_speed <= x_rt * loco_speed[loco_type])
                 # The following fixes the error and is equivalent since arrival_times[route][0][edge] >= departure_times[route][0][edge]
-                m.addConstr(x_rt[route, loco_type] * edge_len[edge]
+                m.addConstr(x_rt[route, loco_type] * edge_len[route][edge]
                             <=
                             x_rt[route, loco_type] * loco_speed[loco_type] * (arrival_times[route][0][edge] - departure_times[route][0][edge]))
                 # The reverse direction:
-                m.addConstr(x_rt[route, loco_type] * edge_len[edge]
+                m.addConstr(x_rt[route, loco_type] * edge_len[route][edge]
                             <=
                             x_rt[route, loco_type] * loco_speed[loco_type] * (arrival_times[route][1][edge] - departure_times[route][1][edge]))
 
     # Constraints to ensure that stations are visited in order:
+    # Also to ensure that each station is waited at for at least 1 minute.
+    # Note: Waiting at a station also creates padding/headway between trains since they all follow
+    #   the same cyclic schedule.
+    wait_time_at_station = 1
     for route in routes:
         i = 0
         route_len = len(route_edges[route])
@@ -241,7 +269,7 @@ try:
             if i != 0: # and i != route_len-1:
                 prev_edge = route_edges[route][i - 1]
                 # Ensure station departing from has been arrived at in previous edge.
-                m.addConstr(departure_times[route][0][edge] >= arrival_times[route][0][prev_edge])
+                m.addConstr(departure_times[route][0][edge] >= arrival_times[route][0][prev_edge] + (wait_time_at_station / period))
             # Ensure we arrive at the next station in edge after we depart.
             m.addConstr(arrival_times[route][0][edge] >= departure_times[route][0][edge])
             i += 1
@@ -249,7 +277,7 @@ try:
         # Constraint for the turn-around point on each route:
         # The loco departs the last station on direction 1 (reverse) after it arrives in direction 0 (forward).
         turnaround = route_edges[route][-1]  # The last edge.
-        m.addConstr(departure_times[route][1][turnaround] >= arrival_times[route][0][turnaround])
+        m.addConstr(departure_times[route][1][turnaround] >= arrival_times[route][0][turnaround] + (wait_time_at_station / period))
 
         # Reverse direction:
         i = route_len - 1
@@ -258,7 +286,7 @@ try:
             if i != route_len - 1: # and i != route_len-1:
                 prev_edge = route_edges[route][i + 1]
                 # Ensure station departing from has been arrived at in previous edge.
-                m.addConstr(departure_times[route][1][edge] >= arrival_times[route][1][prev_edge])
+                m.addConstr(departure_times[route][1][edge] >= arrival_times[route][1][prev_edge] + (wait_time_at_station / period))
             # Ensure we arrive at the next station in edge after we depart.
             m.addConstr(arrival_times[route][1][edge] >= departure_times[route][1][edge])
             i -= 1
@@ -274,13 +302,15 @@ try:
                         ==
                         x_rt[route, loco_type] * arrival_times[route][1][first_station])
 
-    # Constraint to ensure that the number of trains is sufficient to meet the period:
-    # equivalent to (cycle_time/# of trains) <= period.
-    for route in routes:
-        for loco_type in loco_types:
-            m.addConstr(x_rt[route, loco_type] * cycle_times[route][loco_type]
-                        <=
-                        x_rt[route, loco_type] * period * cycle_times[route][loco_type])
+
+    # More Level 3 constraints:
+    # Ensure trains overlap at union station for at least 5 minutes:
+    union_overlap_time = (5 / period)
+    union_r1 = route_edges['r1'][0]
+    union_r2 = route_edges['r2'][0]
+    m.addConstr(departure_times['r1'][0][union_r1] >= union_overlap_time)
+    m.addConstr(departure_times['r2'][0][union_r2] >= union_overlap_time)
+
 
 
     # Optimize and Print Results: --------------------------------------------------------------------------------------
@@ -310,7 +340,7 @@ try:
 
     print("\nRoute Schedules: - - - -")
     for route in routes:
-        print("\tRoute {} - formatted (station event, event time in units of period, event time in minutes):".format(route))
+        print("\n\tRoute {} - formatted (station event, event time in units of period, event time in minutes):".format(route))
         for edge in route_edges[route]:
             depart_var = departure_times[route][0][edge]
             arrive_var = arrival_times[route][0][edge]

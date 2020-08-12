@@ -1,0 +1,100 @@
+Gurobi Optimizer version 9.0.2 build v9.0.2rc0 (mac64)
+Optimize a model with 51 rows, 43 columns and 92 nonzeros
+Model fingerprint: 0x6b76fe3b
+Model has 2 quadratic objective terms
+Model has 22 quadratic constraints
+Variable types: 41 continuous, 2 integer (1 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 2e+02]
+  QMatrix range    [1e+00, 9e+01]
+  QLMatrix range   [2e+00, 3e+01]
+  Objective range  [0e+00, 0e+00]
+  QObjective range [1e+02, 3e+02]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [6e+02, 6e+02]
+Presolve removed 51 rows and 43 columns
+Presolve time: 0.00s
+Presolve: All rows and columns removed
+
+Explored 0 nodes (0 simplex iterations) in 0.00 seconds
+Thread count was 1 (of 4 available processors)
+
+Solution count 1: 930.579 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 9.305786153381e+02, best bound 9.305786153381e+02, gap 0.0000%
+
+Station to name mapping: - - - -
+	Route r1 == Barrie Line:
+		s1 -> Union
+		s2 -> York University
+		s3 -> Rutherford
+		s4 -> Maple
+		s5 -> King City
+		s6 -> Aurora
+		s7 -> Newmarket
+		s8 -> East Gwillimbury
+		s9 -> Bradford
+		s10 -> Barrie South
+		s11 -> Allendale
+
+Locomotive and Coach values for each route: - - - -
+	Note: x_rt is binary.  1 if type t is used on route r.  Similar, w_rt is the number of coaches for type t
+	Route r1:
+		Number of loco used: 3
+		x_rt[r1,MP40] 1.0
+		w_rt[r1,MP40] 4.0
+
+Route Schedules: - - - -
+	Route r1 - formatted (station event, event time in units of period, event time in minutes):
+		d_r1_s1_0 0.0 0.0m
+		a_r1_s2_0 0.19274725274725274 11.564835164835165m
+		d_r1_s2_0 0.19274725274725268 11.564835164835161m
+		a_r1_s3_0 0.2953846153846153 17.723076923076917m
+		d_r1_s3_0 0.29538461538461525 17.723076923076913m
+		a_r1_s4_0 0.3236263736263735 19.41758241758241m
+		d_r1_s4_0 0.32362637362637336 19.417582417582402m
+		a_r1_s5_0 0.40142857142857113 24.085714285714268m
+		d_r1_s5_0 0.4014285714285712 24.08571428571427m
+		a_r1_s6_0 0.5287912087912086 31.727472527472514m
+		d_r1_s6_0 0.5287912087912086 31.727472527472514m
+		a_r1_s7_0 0.6049450549450547 36.29670329670328m
+		d_r1_s7_0 0.6049450549450547 36.29670329670328m
+		a_r1_s8_0 0.6278021978021976 37.66813186813186m
+		d_r1_s8_0 0.6278021978021976 37.66813186813186m
+		a_r1_s9_0 0.7339560439560437 44.03736263736263m
+		d_r1_s9_0 0.7339560439560437 44.03736263736263m
+		a_r1_s10_0 1.0523076923076922 63.13846153846153m
+		d_r1_s10_0 1.0523076923076922 63.13846153846153m
+		a_r1_s11_0 1.114175824175824 66.85054945054944m
+		 - - Turn around point - -
+		d_r1_s11_1 1.114175824175824 66.85054945054944m
+		a_r1_s10_1 1.1760439560439557 70.56263736263735m
+		d_r1_s10_1 1.1760439560439557 70.56263736263735m
+		a_r1_s9_1 1.4943956043956041 89.66373626373625m
+		d_r1_s9_1 1.4943956043956041 89.66373626373625m
+		a_r1_s8_1 1.6005494505494502 96.03296703296701m
+		d_r1_s8_1 1.6005494505494502 96.03296703296701m
+		a_r1_s7_1 1.623406593406593 97.40439560439559m
+		d_r1_s7_1 1.623406593406593 97.40439560439559m
+		a_r1_s6_1 1.6995604395604393 101.97362637362636m
+		d_r1_s6_1 1.6995604395604393 101.97362637362636m
+		a_r1_s5_1 1.8269230769230766 109.6153846153846m
+		d_r1_s5_1 1.8269230769230766 109.6153846153846m
+		a_r1_s4_1 1.9047252747252745 114.28351648351648m
+		d_r1_s4_1 1.9047252747252745 114.28351648351648m
+		a_r1_s3_1 1.9329670329670328 115.97802197802197m
+		d_r1_s3_1 1.9329670329670325 115.97802197802196m
+		a_r1_s2_1 2.035604395604395 122.13626373626371m
+		d_r1_s2_1 2.035604395604395 122.13626373626371m
+		a_r1_s1_1 2.228351648351648 133.70109890109887m
+
+Cycle Times: - - - -
+	Route r1:
+		cycletime_r1_MP40 2.228351648351648 133.70109890109887m
+
+########
+The Objective Value is 930.578615338095
+########
+
+Process finished with exit code 0

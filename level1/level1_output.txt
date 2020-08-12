@@ -1,0 +1,47 @@
+Academic license - for non-commercial use only
+loco_types, loco_Cfix, loco_Ckm, loco_speed:
+['MP40']
+{'MP40': 0}
+{'MP40': 98.09}
+{'MP40': 91}
+
+car_types, car_Cfix, car_Ckm, car_cap, car_min, car_max:
+['MP40']
+{'MP40': 0}
+{'MP40': 37.26}
+{'MP40': 162}
+{'MP40': 1}
+{'MP40': 12}
+routes, route_edges, route_dist
+['r1']
+{'r1': [('s1', 's2'), ('s2', 's3'), ('s3', 's4'), ('s4', 's5'), ('s5', 's6'), ('s6', 's7'), ('s7', 's8'), ('s8', 's9'), ('s9', 's10'), ('s10', 's11')]}
+{'r1': 101.39}
+- - - - cycle_times:
+{'r1': {'MP40': 133.7010989010989}}
+- - - - num_trains:
+{'r1': {'MP40': 3}}
+Gurobi Optimizer version 9.0.2 build v9.0.2rc0 (mac64)
+Optimize a model with 12 rows, 2 columns and 14 nonzeros
+Model fingerprint: 0xafa9693b
+Variable types: 0 continuous, 2 integer (1 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 2e+02]
+  Objective range  [1e+04, 3e+04]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [6e+02, 6e+02]
+Presolve removed 12 rows and 2 columns
+Presolve time: 0.00s
+Presolve: All rows and columns removed
+
+Explored 0 nodes (0 simplex iterations) in 0.00 seconds
+Thread count was 1 (of 4 available processors)
+
+Solution count 1: 75169.5 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 7.516953210000e+04, best bound 7.516953210000e+04, gap 0.0000%
+x_rt[r1,MP40] 1
+w_rt[r1,MP40] 4
+Obj: 75169.5
+
+Process finished with exit code 0

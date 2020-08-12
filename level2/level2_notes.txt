@@ -1,0 +1,8 @@
+
+
+Notice how the train immediately departs a station as soon as it arrives.
+There is currently no PESP constraint indicating that there should be wait time at a station. It makes sense that the locomotive does not wait since waiting could increase the number of locomotives required to service the route within the period.
+
+
+
+

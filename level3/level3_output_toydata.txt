@@ -1,0 +1,106 @@
+Academic license - for non-commercial use only
+Changed value of parameter NonConvex to 2
+   Prev: -1  Min: -1  Max: 2  Default: -1
+Gurobi Optimizer version 9.0.2 build v9.0.2rc0 (mac64)
+Optimize a model with 18 rows, 20 columns and 34 nonzeros
+Model fingerprint: 0x9c3adbaa
+Model has 8 quadratic objective terms
+Model has 12 quadratic constraints
+Variable types: 12 continuous, 8 integer (4 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+01]
+  QMatrix range    [1e+00, 8e+01]
+  QLMatrix range   [4e+01, 8e+01]
+  Objective range  [0e+00, 0e+00]
+  QObjective range [6e+00, 9e+01]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [2e-02, 4e+01]
+Presolve removed 10 rows and 10 columns
+Presolve time: 0.07s
+Presolved: 39 rows, 44 columns, 93 nonzeros
+Presolved model has 20 SOS constraint(s)
+Presolved model has 2 bilinear constraint(s)
+Variable types: 30 continuous, 14 integer (12 binary)
+
+Root relaxation: objective 7.680000e+01, 20 iterations, 0.00 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0   76.80000    0   14          -   76.80000      -     -    0s
+     0     0  109.80000    0    5          -  109.80000      -     -    0s
+     0     0  109.80000    0    5          -  109.80000      -     -    0s
+H    0     0                     191.5333333  109.80000  42.7%     -    0s
+     0     2  109.80000    0    5  191.53333  109.80000  42.7%     -    0s
+
+Cutting planes:
+  Gomory: 1
+  Cover: 1
+  Implied bound: 1
+  Clique: 35
+  Mod-K: 1
+  Relax-and-lift: 1
+
+Explored 3 nodes (25 simplex iterations) in 0.09 seconds
+Thread count was 4 (of 4 available processors)
+
+Solution count 1: 191.533 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 1.915333333333e+02, best bound 1.915333333333e+02, gap 0.0000%
+
+Station to name mapping: - - - -
+	Route r1 == Route1:
+		s1 -> Station1
+		s2 -> Station2
+	Route r2 == Route2:
+		s2 -> Station2
+		s3 -> Station3
+
+Locomotive and Coach values for each route: - - - -
+	Note: x_rt is binary.  1 if type t is used on route r.  Similar, w_rt is the number of coaches for type t
+	Route r1:
+		Number of loco used: 3
+		x_rt[r1,a] 1.0
+		w_rt[r1,a] 4.0
+		Number of loco used: 0
+		x_rt[r1,b] 0.0
+		w_rt[r1,b] 0.0
+	Route r2:
+		Number of loco used: 5
+		x_rt[r2,a] 1.0
+		w_rt[r2,a] 2.0
+		Number of loco used: 0
+		x_rt[r2,b] 0.0
+		w_rt[r2,b] 0.0
+
+Route Schedules: - - - -
+
+	Route r1 - formatted (station event, event time in units of period, event time in minutes):
+		d_r1_s1_0 0.08333333333333333 5.0m
+		a_r1_s2_0 1.0833333333333335 65.00000000000001m
+		 - - Turn around point - -
+		d_r1_s2_1 1.1 66.0m
+		a_r1_s1_1 2.1 126.0m
+
+	Route r2 - formatted (station event, event time in units of period, event time in minutes):
+		d_r2_s2_0 0.08333333333333333 5.0m
+		a_r2_s3_0 2.0833333333333335 125.00000000000001m
+		 - - Turn around point - -
+		d_r2_s3_1 2.1 126.0m
+		a_r2_s2_1 4.1000000000000005 246.00000000000003m
+
+Cycle Times: - - - -
+	Route r1:
+		cycletime_r1_a 2.1 126.0m
+		cycletime_r1_b 0.0 0.0m
+	Route r2:
+		cycletime_r2_a 4.1000000000000005 246.00000000000003m
+		cycletime_r2_b 0.0 0.0m
+
+########
+The Objective Value is 191.53333333333333
+########
+
+Process finished with exit code 0
+

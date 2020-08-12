@@ -10,12 +10,13 @@ import numpy as np
 from math import ceil
 
 
-debug = False
+# debug = False
+debug = True
 
 try:
 
     # Create a new model
-    m = gp.Model("toy_exampleV5")
+    m = gp.Model("level1")
 
     #### Initialize Data: ####
 

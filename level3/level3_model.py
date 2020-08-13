@@ -10,7 +10,6 @@
 
 import gurobipy as gp
 from gurobipy import GRB
-import numpy as np
 from math import ceil
 
 # This is required to allow for multiple train type.  If the default value (-1) is used, we get error:
